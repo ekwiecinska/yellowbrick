@@ -193,17 +193,21 @@ class PosTagVisualizer(TextVisualizer):
     def fit(self, X, y=None, **kwargs):
         """
         Fits the corpus to the appropriate tag map.
-        Text documents must be tokenized & tagged before passing to fit.
+        Text documents must be tokenized & tagged before passing to fit
+        if the 'parse' argument has not been specified at initialization.
+        Otherwise X can be a raw text ready to be parsed.
 
         Parameters
         ----------
-        X : list or generator
+        X : list or generator or str (raw text)
             Should be provided as a list of documents or a generator
             that yields a list of documents that contain a list of
-            sentences that contain (token, tag) tuples.
+            sentences that contain (token, tag) tuples. If X is a
+            string, the 'parse' argument should be specified as 'nltk'
+            or 'spacy' in order to parse the raw documents.
 
         y : ndarray or Series of length n
-            An optional array of target values that are ignored by the
+            An optional array of target values that are  ignored by the
             visualizer.
 
         kwargs : dict
