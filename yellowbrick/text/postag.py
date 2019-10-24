@@ -20,6 +20,7 @@ small subset of documents.
 ##########################################################################
 
 import numpy as np
+import importlib
 
 from yellowbrick.draw import bar_stack
 from yellowbrick.text.base import TextVisualizer
@@ -147,6 +148,7 @@ class PosTagVisualizer(TextVisualizer):
         colors=None,
         frequency=False,
         stack=False,
+        parse=None,
         **kwargs
     ):
         super(PosTagVisualizer, self).__init__(ax=ax, **kwargs)
@@ -167,6 +169,25 @@ class PosTagVisualizer(TextVisualizer):
         self.colormap = colormap
         self.colors = colors
         self.stack = stack
+        self.parser = parse
+
+    @property
+    def parser(self):
+        return self.__parser
+
+    @parser.setter
+    def parser(self, parser):
+        accepted_parsers = ['nltk', 'spacy']
+        if not parser:
+            self.__parser = None
+        elif parser in accepted_parsers:
+            try:
+                importlib.import_module(parser)
+            except ModuleNotFoundError:
+                raise ModuleNotFoundError("Parser '{}' is not found in this environment.".format(parser))
+            self.__parser = parser
+        else:
+            raise ValueError("{} is an invalid parser.".format(parser))
 
     def fit(self, X, y=None, **kwargs):
         """
