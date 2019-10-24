@@ -215,6 +215,16 @@ class PosTagVisualizer(TextVisualizer):
             Returns the instance of the transformer/visualizer
         """
         self.labels_ = ["documents"]
+
+        if self.parse:
+            if self.parse == 'nltk':
+                X = self._parse_nltk(X)
+            elif self.parse == 'spacy':
+                X = self._parse_spacy(X)
+            else:
+                raise ValueError("{} is an invalid parser. Currently the supported parsers are 'nltk' and "
+                                 "'spacy'.".format(self.parse))
+
         if self.stack:
             if y is None:
                 raise YellowbrickValueError("Specify y for stack=True")
@@ -231,6 +241,25 @@ class PosTagVisualizer(TextVisualizer):
         self.draw()
 
         return self
+
+    def _parse_nltk(self, X):
+        nltk = importlib.import_module('nltk')
+        for doc in X:
+            yield [
+                nltk.pos_tag(nltk.word_tokenize(sent)) for sent in nltk.sent_tokenize(doc)
+            ]
+
+    def _parse_spacy(self, X):
+        spacy = importlib.import_module('spacy')
+        try:
+            nlp = spacy.load("en_core_web_sm")
+        except OSError:
+            raise OSError("Spacy model 'en_core_web_sm' has not been downloaded into this environment.")
+        for doc in X:
+            tagged = nlp(doc)
+            yield [
+                list((token.text.token.pos_) for token in sent) for sent in tagged.sents
+            ]
 
     def _penn_tag_map(self):
         """
