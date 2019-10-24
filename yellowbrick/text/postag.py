@@ -169,25 +169,26 @@ class PosTagVisualizer(TextVisualizer):
         self.colormap = colormap
         self.colors = colors
         self.stack = stack
-        self.parser = parse
+        self.parse = parse
 
     @property
-    def parser(self):
-        return self.__parser
+    def parse(self):
+        return self.__parse
 
-    @parser.setter
-    def parser(self, parser):
+    @parse.setter
+    def parse(self, parse):
         accepted_parsers = ['nltk', 'spacy']
-        if not parser:
-            self.__parser = None
-        elif parser in accepted_parsers:
+        if not parse:
+            self.__parse = None
+        elif parse in accepted_parsers:
             try:
-                importlib.import_module(parser)
+                importlib.import_module(parse)
             except ModuleNotFoundError:
-                raise ModuleNotFoundError("Parser '{}' is not found in this environment.".format(parser))
-            self.__parser = parser
+                raise ModuleNotFoundError("Can't find module '{}' in this environment.".format(parse))
+            self.__parse = parse
         else:
-            raise ValueError("{} is an invalid parser.".format(parser))
+            raise ValueError("{} is an invalid parser. Currently the supported parsers are 'nltk' and "
+                             "'spacy'".format(parse))
 
     def fit(self, X, y=None, **kwargs):
         """
