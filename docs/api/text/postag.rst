@@ -8,8 +8,7 @@ Parts of speech (e.g. verbs, nouns, prepositions, adjectives) indicate how a wor
 The ``PosTagVisualizer`` is intended to support grammar-based feature extraction techniques for machine learning workflows that require natural language processing. The visualizer can either read in a corpus that has already been sentence- and word-segmented, and tagged, or perform this tagging automatically by specifying the parser to use (nltk or spacy). The viisualiser creates a bar chart to visualize the relative proportions of different parts-of-speech in a corpus.
 
 .. note::
-    The ``PosTagVisualizer`` currently works with both Penn-Treebank (e.g. via NLTK) and Universal Dependencies (e.g. via SpaCy)-tagged corpora.
-     This expects either raw text, or corpora that have already been tagged which take the form of a list of (document) lists of (sentence) lists of ``(token, tag)`` tuples, as in the example below.
+    The ``PosTagVisualizer`` currently works with both Penn-Treebank (e.g. via NLTK) and Universal Dependencies (e.g. via SpaCy)-tagged corpora. This expects either raw text, or corpora that have already been tagged which take the form of a list of (document) lists of (sentence) lists of ``(token, tag)`` tuples, as in the example below.
 
 Penn Treebank Tags
 ------------------
