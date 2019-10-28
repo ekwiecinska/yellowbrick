@@ -230,7 +230,9 @@ Parsing raw text automatically
 The ``PosTagVisualizer`` can also be used with untagged text by using the `parse` keyword on instantiation. The keyword
 to parse indicates which natural language processing library to use. To use SpaCy:
 
+
 .. code:: python
+
     untagged_speech = ''
 
     # Create the visualizer, fit, score, and show it
@@ -238,9 +240,11 @@ to parse indicates which natural language processing library to use. To use SpaC
     viz.fit(untagged_speech)
     viz.show()
 
+
 Or, using the `nltk` parser.
 
 .. code:: python
+
     untagged_speech = ''
 
     # Create the visualizer, fit, score, and show it
